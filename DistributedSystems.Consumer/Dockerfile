@@ -3,14 +3,13 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["DistributedSystems.Consumer/DistributedSystems.Consumer.csproj", "DistributedSystems.Consumer/"]
-RUN dotnet restore "DistributedSystems.Consumer/DistributedSystems.Consumer.csproj"
+COPY ["DistributedSystems.Consumer.csproj", "DistributedSystems.Consumer/"]
+RUN dotnet restore DistributedSystems.Consumer
 COPY . .
-WORKDIR "/src/DistributedSystems.Consumer"
-RUN dotnet build "DistributedSystems.Consumer.csproj" -c Release -o /app/build
+RUN dotnet build DistributedSystems.Consumer -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "DistributedSystems.Consumer.csproj" -c Release -o /app/publish
+RUN dotnet publish DistributedSystems.Consumer -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app

@@ -5,6 +5,7 @@ project.lock.json
 *.pyc
 nupkg/
 /packages/
+docker/
 
 # Visual Studio Code
 .vscode
