@@ -1,0 +1,29 @@
+version: '3.5'
+
+services:
+  api:
+    restart: always
+    build:
+      context: .
+      dockerfile: DistributedSystems.Web/Dockerfile
+    environment:
+      URLS: http://0.0.0.0:80
+      ASPNETCORE_ENVIRONMENT: Development
+
+      ConnectionStrings__PostgreSQL: 'User ID=distsys;Password=distsys;Host=postgres;Port=5432;Database=distsys'
+    volumes:
+      - ./docker/protection-keys:/root/.aspnet/DataProtection-Keys
+    depends_on:
+      - postgres
+    ports:
+      - "127.0.0.1:5000:80"
+
+  postgres:
+    restart: always
+    environment:
+      POSTGRES_DB: distsys
+      POSTGRES_USER: distsys
+      POSTGRES_PASSWORD: distsys
+    image: postgres:13.2-alpine
+    volumes:
+      - ./docker/postgres-backend:/var/lib/postgresql/data
