@@ -1,0 +1,14 @@
+@{
+    ViewData["Title"] = "Сделать запрос";
+}
+
+<form action="#" method="post">
+    <input type="text" name="Group" placeholder="Group">
+    <br>
+    <input type="text" name="Repository" placeholder="Repository">
+    <br>
+    @* <a asp-action="ListGithubStats">Назад</a> *@
+    <button asp-action="ListGithubStats">Назад</button>
+    <input type="submit" value="Запросить статистику">
+</form>
+

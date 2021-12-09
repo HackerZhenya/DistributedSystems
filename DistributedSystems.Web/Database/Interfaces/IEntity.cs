@@ -1,9 +1,6 @@
-using System;
+namespace DistributedSystems.Web.Database.Interfaces;
 
-namespace DistributedSystems.Web.Database.Interfaces
+public interface IEntity
 {
-    public interface IEntity
-    {
-        public Guid Id { get; set; }
-    }
+    Guid Id { get; set; }
 }

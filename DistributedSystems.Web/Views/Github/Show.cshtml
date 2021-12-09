@@ -1,0 +1,14 @@
+@model DistributedSystems.Web.Models.Github.ShowViewModel
+@{
+    ViewData["Title"] = $"Статистика для {Model!.Stat.Group}/{Model.Stat.Repository}";
+}
+
+<h1>Статистика для <u>@Model.Stat.Group/@Model.Stat.Repository</u></h1>
+
+<h3>
+    @(Model.Stat.Statistics == null
+        ? "Запрос в обработке"
+        : Model.Stat.IsFromCache!.Value
+            ? "Взято из кэша"
+            : "Горячие данные от github")
+</h3>

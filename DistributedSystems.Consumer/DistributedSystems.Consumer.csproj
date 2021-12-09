@@ -16,6 +16,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DistributedSystems.Entities\DistributedSystems.Entities.csproj" />
+      <ProjectReference Include="..\DistributedSystems.Common\DistributedSystems.Common.csproj" />
     </ItemGroup>
 </Project>

@@ -1,21 +1,31 @@
-using Autofac.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
+using DistributedSystems.Entities.Extensions;
+using DistributedSystems.Web.Database;
+using DistributedSystems.Web.Extensions;
+using DistributedSystems.Web.Services;
+using Microsoft.EntityFrameworkCore;
 
-namespace DistributedSystems.Web
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services
+       .AddAmqp()
+       .AddDbContext<AppDbContext>((ctx, options) =>
+           options.UseNpgsql(ctx.GetRequiredService<IConfiguration>()
+                                .GetConnectionString("PostgreSQL")))
+       .AddSingleton<InternalAuthService>()
+       .AddControllersWithViews();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
 {
-    public class Program
-    {
-        public static void Main(string[] args) =>
-            CreateHostBuilder(args).Build()
-                                   .Run();
-
-        private static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+    app.UseExceptionHandler("/Home/Error");
 }
+
+app.UseRouting();
+app.MapControllers();
+
+app.RunMigrations()
+   .DeclareExchanges()
+   .Run();

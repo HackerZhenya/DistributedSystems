@@ -2,26 +2,23 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <RootNamespace>DistributedSystems.Web</RootNamespace>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Autofac" Version="6.3.0" />
-      <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
-      <PackageReference Include="MediatR" Version="9.0.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.0" />
-      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.0" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.1" />
       <PackageReference Include="RabbitMQ.Client" Version="6.2.2" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Handlers\Github\Dto" />
+      <ProjectReference Include="..\DistributedSystems.Common\DistributedSystems.Common.csproj" />
     </ItemGroup>
 
 </Project>

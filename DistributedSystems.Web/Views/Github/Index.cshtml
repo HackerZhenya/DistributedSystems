@@ -1,0 +1,14 @@
+@model DistributedSystems.Web.Models.Github.IndexViewModel
+@{
+    ViewData["Title"] = "Список запросов";
+}
+
+<div>
+    @foreach (var stat in Model!.Stats)
+    {
+        <a asp-action="ShowStats" asp-route-statId="@stat.Id">
+            <h4>@(stat.IsPending ? "[ В обработке ]" : string.Empty) @stat.Group/@stat.Repository</h4>
+            @stat.CreatedAt | @stat.UpdatedAt
+        </a>
+    }
+</div>
