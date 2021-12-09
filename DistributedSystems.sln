@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributedSystems.Web", "D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributedSystems.Consumer", "DistributedSystems.Consumer\DistributedSystems.Consumer.csproj", "{1E09026E-C858-459E-9AA5-4873D15AF2B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributedSystems.Entities", "DistributedSystems.Entities\DistributedSystems.Entities.csproj", "{D0EBCA1E-5FF7-4E09-83FB-EBD081AAA7CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{1E09026E-C858-459E-9AA5-4873D15AF2B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E09026E-C858-459E-9AA5-4873D15AF2B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E09026E-C858-459E-9AA5-4873D15AF2B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0EBCA1E-5FF7-4E09-83FB-EBD081AAA7CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0EBCA1E-5FF7-4E09-83FB-EBD081AAA7CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0EBCA1E-5FF7-4E09-83FB-EBD081AAA7CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0EBCA1E-5FF7-4E09-83FB-EBD081AAA7CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
