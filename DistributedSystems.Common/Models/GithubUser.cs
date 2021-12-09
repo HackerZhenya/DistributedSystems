@@ -8,40 +8,40 @@ public class GithubUser
     public long Id { get; set; }
 
     [JsonPropertyName("login")]
-    public string Login { get; set; }
+    public string? Login { get; set; }
 
     [JsonPropertyName("node_id")]
-    public string NodeId { get; set; }
+    public string? NodeId { get; set; }
 
     [JsonPropertyName("avatar_url")]
-    public string AvatarUrl { get; set; }
+    public string? AvatarUrl { get; set; }
 
     [JsonPropertyName("html_url")]
-    public string HtmlUrl { get; set; }
+    public string? HtmlUrl { get; set; }
 
     [JsonPropertyName("type")]
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     [JsonPropertyName("site_admin")]
-    public string SiteAdmin { get; set; }
+    public string? SiteAdmin { get; set; }
 
     [JsonPropertyName("name")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [JsonPropertyName("company")]
-    public string Company { get; set; }
+    public string? Company { get; set; }
 
     [JsonPropertyName("blog")]
-    public string Blog { get; set; }
+    public string? Blog { get; set; }
 
     [JsonPropertyName("location")]
-    public string Location { get; set; }
+    public string? Location { get; set; }
 
     [JsonPropertyName("email")]
-    public string Email { get; set; }
+    public string? Email { get; set; }
 
     [JsonPropertyName("bio")]
-    public string Bio { get; set; }
+    public string? Bio { get; set; }
 
     [JsonPropertyName("public_repos")]
     public int PublicRepos { get; set; }

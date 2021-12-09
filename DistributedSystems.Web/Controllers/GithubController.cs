@@ -38,7 +38,7 @@ public class GithubController : Controller
                                         Id = x.Id,
                                         Group = x.Group,
                                         Repository = x.Repository,
-                                        IsPending = x.Statistics == null,
+                                        IsPending = !x.IsFromCache.HasValue,
                                         CreatedAt = x.CreatedAt,
                                         UpdatedAt = x.UpdatedAt
                                     })

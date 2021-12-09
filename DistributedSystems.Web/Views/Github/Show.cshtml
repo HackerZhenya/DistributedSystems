@@ -3,12 +3,19 @@
     ViewData["Title"] = $"Статистика для {Model!.Stat.Group}/{Model.Stat.Repository}";
 }
 
-<h1>Статистика для <u>@Model.Stat.Group/@Model.Stat.Repository</u></h1>
+<h1>
+    Статистика для <u>@Model.Stat.Group/@Model.Stat.Repository</u>
+    <span style="float: right">
+        <a asp-action="ListGithubStats">на главную</a>
+    </span>
+</h1>
 
 <h3>
-    @(Model.Stat.Statistics == null
+    @(!Model.Stat.IsFromCache.HasValue
         ? "Запрос в обработке"
-        : Model.Stat.IsFromCache!.Value
+        : Model.Stat.IsFromCache.Value
             ? "Взято из кэша"
             : "Горячие данные от github")
 </h3>
+
+@Model.Stat.Statistics.

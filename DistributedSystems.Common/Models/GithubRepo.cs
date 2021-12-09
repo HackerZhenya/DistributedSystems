@@ -8,40 +8,40 @@ public class GithubRepo
     public long Id { get; set; }
 
     [JsonPropertyName("owner")]
-    public GithubUser Owner { get; set; }
+    public GithubUser Owner { get; set; } = null!;
 
     [JsonPropertyName("license")]
-    public GithubLicense License { get; set; }
+    public GithubLicense License { get; set; } = null!;
 
     [JsonPropertyName("node_id")]
-    public string NodeId { get; set; }
+    public string? NodeId { get; set; }
 
     [JsonPropertyName("name")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [JsonPropertyName("full_name")]
-    public string FullName { get; set; }
+    public string? FullName { get; set; }
 
     [JsonPropertyName("private")]
     public bool Private { get; set; }
 
     [JsonPropertyName("html_url")]
-    public string HtmlUrl { get; set; }
+    public string? HtmlUrl { get; set; }
 
     [JsonPropertyName("description")]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     [JsonPropertyName("fork")]
     public bool Fork { get; set; }
 
     [JsonPropertyName("homepage")]
-    public string Homepage { get; set; }
+    public string? Homepage { get; set; }
 
     [JsonPropertyName("size")]
     public int Size { get; set; }
 
     [JsonPropertyName("language")]
-    public string Language { get; set; }
+    public string? Language { get; set; }
 
     [JsonPropertyName("has_issues")]
     public bool HasIssues { get; set; }
@@ -59,7 +59,7 @@ public class GithubRepo
     public bool HasPages { get; set; }
 
     [JsonPropertyName("mirror_url")]
-    public string MirrorUrl { get; set; }
+    public string? MirrorUrl { get; set; }
 
     [JsonPropertyName("archived")]
     public bool Archived { get; set; }
@@ -74,10 +74,10 @@ public class GithubRepo
     public bool IsTemplate { get; set; }
 
     [JsonPropertyName("topics")]
-    public ICollection<string> Topics { get; set; }
+    public ICollection<string>? Topics { get; set; }
 
     [JsonPropertyName("visibility")]
-    public string Visibility { get; set; }
+    public string? Visibility { get; set; }
 
     [JsonPropertyName("forks")]
     public int Forks { get; set; }
@@ -89,5 +89,5 @@ public class GithubRepo
     public int Watchers { get; set; }
 
     [JsonPropertyName("default_branch")]
-    public string DefaultBranch { get; set; }
+    public string? DefaultBranch { get; set; }
 }

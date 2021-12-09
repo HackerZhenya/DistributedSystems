@@ -1,19 +1,18 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
-WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+﻿FROM mcr.microsoft.com/dotnet/sdk:6.0 AS sdk
+WORKDIR /build
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
-COPY ["DistributedSystems.Web.csproj", "DistributedSystems/"]
+# Copy csproj and restore as distinct layers
+COPY ./**/*.csproj ./
+RUN for file in $(ls *.csproj); do mkdir -p ${file%.*}/ && mv $file ${file%.*}/; done
 RUN dotnet restore DistributedSystems.Web
-COPY . .
-RUN dotnet build DistributedSystems.Web -c Release -o /app/build
 
-FROM build AS publish
-RUN dotnet publish DistributedSystems.Web -c Release -o /app/publish
+# Copy everything else and build
+COPY . ./
+RUN dotnet publish DistributedSystems.Web -c Release -o out
 
-FROM base AS final
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=sdk /build/out .
+
 ENTRYPOINT ["dotnet", "DistributedSystems.Web.dll"]

@@ -1,17 +1,18 @@
-﻿FROM mcr.microsoft.com/dotnet/runtime:6.0 AS base
-WORKDIR /app
+﻿FROM mcr.microsoft.com/dotnet/sdk:6.0 AS sdk
+WORKDIR /build
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
-COPY ["DistributedSystems.Consumer.csproj", "DistributedSystems.Consumer/"]
+# Copy csproj and restore as distinct layers
+COPY ./**/*.csproj ./
+RUN for file in $(ls *.csproj); do mkdir -p ${file%.*}/ && mv $file ${file%.*}/; done
 RUN dotnet restore DistributedSystems.Consumer
-COPY . .
-RUN dotnet build DistributedSystems.Consumer -c Release -o /app/build
 
-FROM build AS publish
-RUN dotnet publish DistributedSystems.Consumer -c Release -o /app/publish
+# Copy everything else and build
+COPY . ./
+RUN dotnet publish DistributedSystems.Consumer -c Release -o out
 
-FROM base AS final
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=sdk /build/out .
+
 ENTRYPOINT ["dotnet", "DistributedSystems.Consumer.dll"]

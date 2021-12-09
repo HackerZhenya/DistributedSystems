@@ -4,7 +4,8 @@ services:
   webapi:
     restart: always
     build:
-      context: DistributedSystems.Web
+      context: .
+      dockerfile: DistributedSystems.Web/Dockerfile
     environment:
       URLS: http://0.0.0.0:80
       ASPNETCORE_ENVIRONMENT: Development
@@ -26,7 +27,8 @@ services:
   consumer:
     restart: always
     build:
-      context: DistributedSystems.Consumer
+      context: .
+      dockerfile: DistributedSystems.Consumer/Dockerfile
     environment:
       ASPNETCORE_ENVIRONMENT: Development
     volumes:

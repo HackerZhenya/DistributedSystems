@@ -1,14 +1,35 @@
+@using DistributedSystems.Web.Extensions
 @model DistributedSystems.Web.Models.Github.IndexViewModel
 @{
     ViewData["Title"] = "Список запросов";
 }
 
+<h1>
+    Список запросов на статистику
+    <span style="float: right">
+        <a asp-action="ShowRequestForm">добавить</a>
+    </span>
+</h1>
+<h4>Всего @Model!.Stats.Count запросов, @Model.Stats.Count(x => x.IsPending) в ожидании</h4>
+
 <div>
-    @foreach (var stat in Model!.Stats)
+    @foreach (var stat in Model.Stats)
     {
-        <a asp-action="ShowStats" asp-route-statId="@stat.Id">
-            <h4>@(stat.IsPending ? "[ В обработке ]" : string.Empty) @stat.Group/@stat.Repository</h4>
-            @stat.CreatedAt | @stat.UpdatedAt
-        </a>
+        <div>
+            <h4>
+                <a asp-action="ShowStats" asp-route-statId="@stat.Id">
+                    @(stat.IsPending ? "[ В обработке ]" : string.Empty) @stat.Group/@stat.Repository
+                </a>
+            </h4>
+
+            <p>
+                <span>Created @DateTime.UtcNow.Subtract(stat.CreatedAt).ToHumanReadableString() ago</span>
+                @if (!stat.IsPending)
+                {
+                    <span>| Updated @DateTime.UtcNow.Subtract(stat.UpdatedAt).ToHumanReadableString() ago</span>
+                }
+            </p>
+        </div>
+        <hr/>
     }
 </div>
