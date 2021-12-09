@@ -17,8 +17,6 @@ namespace DistributedSystems.Web
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -32,7 +30,6 @@ namespace DistributedSystems.Web
                     .BindConfiguration("RabbitMQ");
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterAssemblyTypes(GetType().GetTypeInfo().Assembly)
@@ -77,7 +74,7 @@ namespace DistributedSystems.Web
                    .AsImplementedInterfaces()
                    .SingleInstance();
 
-            builder.Register(ctx => ctx.Resolve<IAsyncConnectionFactory>()
+            builder.Register(ctx => ctx.Resolve<IConnectionFactory>()
                                        .CreateConnection())
                    .AsImplementedInterfaces()
                    .SingleInstance();

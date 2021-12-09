@@ -1,7 +1,10 @@
 using DistributedSystems.Consumer;
+using DistributedSystems.Consumer.Extensions;
 
-IHost host = Host.CreateDefaultBuilder(args)
-                 .ConfigureServices(services => { services.AddHostedService<Worker>(); })
-                 .Build();
-
-await host.RunAsync();
+await Host.CreateDefaultBuilder(args)
+          .ConfigureServices(services =>
+               services.AddRedis()
+                       .AddAmqp()
+                       .AddHostedService<Worker>())
+          .Build()
+          .RunAsync();

@@ -1,20 +1,31 @@
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+
 namespace DistributedSystems.Consumer;
 
-public class Worker : BackgroundService
+public class Worker : IHostedService
 {
     private readonly ILogger<Worker> _logger;
+    private readonly IModel _model;
 
-    public Worker(ILogger<Worker> logger)
+    public Worker(IModel model, ILogger<Worker> logger)
     {
         _logger = logger;
+        _model = model;
     }
 
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    public Task StartAsync(CancellationToken cancellationToken)
     {
-        while (!stoppingToken.IsCancellationRequested)
+        var consumer = new AsyncEventingBasicConsumer(_model);
+        consumer.Received += (sender, evt) =>
         {
-            _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-            await Task.Delay(1000, stoppingToken);
-        }
+            _logger.LogInformation("Console.Log");
+            return Task.CompletedTask;
+        };
+
+        return Task.CompletedTask;
     }
+
+    public Task StopAsync(CancellationToken cancellationToken) =>
+        Task.CompletedTask;
 }
