@@ -3,6 +3,8 @@ using System.Text;
 using System.Text.Json;
 using DistributedSystems.Consumer.Clients;
 using DistributedSystems.Entities.Models;
+using DistributedSystems.Entities.Options;
+using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -15,13 +17,15 @@ public class Worker : IHostedService
     private readonly IModel _model;
     private readonly GithubClient _githubClient;
     private readonly ApiClient _apiClient;
+    private readonly AmqpOptions _options;
 
-    public Worker(IModel model, ILogger<Worker> logger, GithubClient githubClient, ApiClient apiClient)
+    public Worker(IModel model, ILogger<Worker> logger, GithubClient githubClient, ApiClient apiClient, IOptions<AmqpOptions> options)
     {
         _logger = logger;
         _githubClient = githubClient;
         _apiClient = apiClient;
         _model = model;
+        _options = options.Value;
     }
 
     public Task StartAsync(CancellationToken cancellationToken)
@@ -42,6 +46,8 @@ public class Worker : IHostedService
 
             await _apiClient.SendStatistics(id, resp, auth);
         };
+
+        _model.BasicConsume(queue: _options.Queue, consumer: consumer);
 
         return Task.CompletedTask;
     }
