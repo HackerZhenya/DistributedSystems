@@ -30,6 +30,9 @@ public class Worker : IHostedService
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
+        _model.QueueDeclare(_options.Queue);
+        _model.QueueBind(_options.Queue, _options.Exchange, nameof(StatsRequest));
+        
         var consumer = new AsyncEventingBasicConsumer(_model);
         consumer.Received += async (sender, evt) =>
         {
