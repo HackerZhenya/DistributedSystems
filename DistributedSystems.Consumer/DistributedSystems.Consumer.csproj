@@ -14,4 +14,8 @@
         <PackageReference Include="RabbitMQ.Client" Version="6.2.2" />
         <PackageReference Include="StackExchange.Redis" Version="2.2.88" />
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DistributedSystems.Entities\DistributedSystems.Entities.csproj" />
+    </ItemGroup>
 </Project>

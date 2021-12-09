@@ -1,4 +1,4 @@
-﻿using DistributedSystems.Consumer.Options;
+﻿using DistributedSystems.Entities.Options;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 
@@ -27,7 +27,7 @@ public static class AmqpExtensions
 
         services.AddSingleton<IConnection>(x => x.GetRequiredService<IConnectionFactory>()
                                                  .CreateConnection());
-        
+
         services.AddSingleton<IModel>(x => x.GetRequiredService<IConnection>()
                                             .CreateModel());
 

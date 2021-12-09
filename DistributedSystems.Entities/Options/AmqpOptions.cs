@@ -1,4 +1,4 @@
-﻿namespace DistributedSystems.Consumer.Options;
+﻿namespace DistributedSystems.Entities.Options;
 
 public class AmqpOptions
 {
