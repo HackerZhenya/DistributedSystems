@@ -18,4 +18,17 @@
             : "Горячие данные от github")
 </h3>
 
-@Model.Stat.Statistics.
+<table>
+    <tr>
+        <td>Id</td>
+        <td>@Model.Stat.Statistics.Id</td>
+    </tr>
+    <tr>
+        <td>Node Id</td>
+        <td>@Model.Stat.Statistics.NodeId</td>
+    </tr>
+    <tr>
+        <td>Owner</td>
+        <td>@Model.Stat.Statistics.Owner.Login</td>
+    </tr>
+</table>

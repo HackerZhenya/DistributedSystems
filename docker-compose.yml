@@ -31,9 +31,19 @@ services:
       dockerfile: DistributedSystems.Consumer/Dockerfile
     environment:
       ASPNETCORE_ENVIRONMENT: Development
+
+      RabbitMQ__Host: rabbitmq
+      RabbitMQ__Username: guest
+      RabbitMQ__Password: guest
+      RabbitMQ__HeartbeatTimeout: 0:00:15
+      RabbitMQ__Exchange: distributed-systems
+      RabbitMQ__Queue: StatsRequestQueue
+
+      Api__Url: http://webapi
     volumes:
       - ./docker/protection-keys:/root/.aspnet/DataProtection-Keys
     depends_on:
+      - webapi
       - rabbitmq
       - rediska
 
