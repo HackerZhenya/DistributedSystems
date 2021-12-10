@@ -9,9 +9,9 @@ public static class RedisExtensions
     {
         services.AddOptions<ConfigurationOptions>()
                 .BindConfiguration("Redis");
-        services.AddSingleton(ctx =>
+        services.AddSingleton<IConnectionMultiplexer>(ctx =>
             ConnectionMultiplexer.Connect(ctx.GetRequiredService<IOptions<ConfigurationOptions>>().Value));
-        services.AddTransient<IDatabase>(ctx => ctx.GetRequiredService<ConnectionMultiplexer>().GetDatabase());
+        services.AddTransient<IDatabase>(ctx => ctx.GetRequiredService<IConnectionMultiplexer>().GetDatabase());
         return services;
     }
 }
