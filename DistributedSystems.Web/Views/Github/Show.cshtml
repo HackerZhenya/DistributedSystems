@@ -18,17 +18,85 @@
             : "Горячие данные от github")
 </h3>
 
-<table>
+<table id="stats">
     <tr>
-        <td>Id</td>
-        <td>@Model.Stat.Statistics.Id</td>
-    </tr>
-    <tr>
-        <td>Node Id</td>
-        <td>@Model.Stat.Statistics.NodeId</td>
+        <td>Description</td>
+        <td>@(Model.Stat.Statistics.Description ?? "N/A")</td>
     </tr>
     <tr>
         <td>Owner</td>
-        <td>@Model.Stat.Statistics.Owner.Login</td>
+        <td>
+            <a href="@(Model.Stat.Statistics.Owner.HtmlUrl ?? "#")">
+                @if (Model.Stat.Statistics.Owner.AvatarUrl != null)
+                {
+                    <img src="@Model.Stat.Statistics.Owner.AvatarUrl" alt="avatar">
+                }
+                @(Model.Stat.Statistics.Owner.Login ?? "N/A")
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>Language</td>
+        <td>@(Model.Stat.Statistics.Language ?? "N/A")</td>
+    </tr>
+    <tr>
+        <td>Is Private</td>
+        <td>@(Model.Stat.Statistics.Private ? "Yes" : "No")</td>
+    </tr>
+    <tr>
+        <td>Is Fork</td>
+        <td>@(Model.Stat.Statistics.Fork ? "Yes" : "No")</td>
+    </tr>
+    <tr>
+        <td>Is Archived</td>
+        <td>@(Model.Stat.Statistics.Archived ? "Yes" : "No")</td>
+    </tr>
+    <tr>
+        <td>Is Disabled</td>
+        <td>@(Model.Stat.Statistics.Disabled ? "Yes" : "No")</td>
+    </tr>
+    <tr>
+        <td>Is Template</td>
+        <td>@(Model.Stat.Statistics.IsTemplate ? "Yes" : "No")</td>
+    </tr>
+    <tr>
+        <td>Has Issues</td>
+        <td>@(Model.Stat.Statistics.HasIssues ? "Yes" : "No")</td>
+    </tr>
+    <tr>
+        <td>Has Projects</td>
+        <td>@(Model.Stat.Statistics.HasProjects ? "Yes" : "No")</td>
+    </tr>
+    <tr>
+        <td>Has Downloads</td>
+        <td>@(Model.Stat.Statistics.HasDownloads ? "Yes" : "No")</td>
+    </tr>
+    <tr>
+        <td>Has Wiki</td>
+        <td>@(Model.Stat.Statistics.HasWiki ? "Yes" : "No")</td>
+    </tr>
+    <tr>
+        <td>Has Pages</td>
+        <td>@(Model.Stat.Statistics.HasPages ? "Yes" : "No")</td>
+    </tr>
+    <tr>
+        <td>Forks count</td>
+        <td>@Model.Stat.Statistics.Forks</td>
+    </tr>
+    <tr>
+        <td>Open issues count</td>
+        <td>@Model.Stat.Statistics.OpenIssues</td>
+    </tr>
+    <tr>
+        <td>Watchers</td>
+        <td>@Model.Stat.Statistics.Watchers</td>
+    </tr>
+    <tr>
+        <td>Default branch</td>
+        <td>@Model.Stat.Statistics.DefaultBranch</td>
+    </tr>
+    <tr>
+        <td>Licence</td>
+        <td>@(Model.Stat.Statistics.License.Name ?? "N/A")</td>
     </tr>
 </table>
