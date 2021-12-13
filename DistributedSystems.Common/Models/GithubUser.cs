@@ -23,7 +23,7 @@ public class GithubUser
     public string? Type { get; set; }
 
     [JsonPropertyName("site_admin")]
-    public string? SiteAdmin { get; set; }
+    public bool? SiteAdmin { get; set; }
 
     [JsonPropertyName("name")]
     public string? Name { get; set; }

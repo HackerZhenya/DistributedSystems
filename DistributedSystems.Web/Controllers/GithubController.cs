@@ -93,7 +93,7 @@ public class GithubController : Controller
                                                  CancellationToken cancellationToken)
     {
         if (!Request.Headers.ContainsKey(HeaderNames.Authorization) ||
-            Request.Headers[HeaderNames.Authorization].ToString() != authService.SecretKey)
+            Request.Headers[HeaderNames.Authorization].ToString() != $"Secret {authService.SecretKey}")
         {
             return Unauthorized();
         }

@@ -9,14 +9,16 @@ public class GithubClient
 
     public GithubClient(HttpClient client)
     {
-        client.BaseAddress = new Uri("https://api.github/");
+        client.BaseAddress = new Uri("https://api.github.com/");
+        client.DefaultRequestHeaders.Add("User-Agent", "PostmanRuntime/7.28.4");
         _client = client;
     }
 
     public async Task<GithubRepo> GetStatisticss(StatsRequest request, CancellationToken cancellationToken)
     {
         var resp = await _client.GetAsync($"repos/{request.Group}/{request.Repository}", cancellationToken);
-        var repo = JsonSerializer.Deserialize<GithubRepo>(await resp.Content.ReadAsStringAsync(cancellationToken));
+        var content = await resp.Content.ReadAsStringAsync(cancellationToken);
+        var repo = JsonSerializer.Deserialize<GithubRepo>(content);
         return repo;
     }
 }
