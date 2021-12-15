@@ -12,7 +12,7 @@ public class ApiClient
 
     public ApiClient(HttpClient client, IOptions<ApiOptions> options)
     {
-        client.BaseAddress = new Uri("http://localhost:5086");
+        client.BaseAddress = options.Value.Url;
         _client = client;
     }
 
