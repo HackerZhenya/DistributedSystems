@@ -11,7 +11,7 @@ public class GithubStat : IEntity, IHasTimestamps
     public string Repository { get; set; } = null!;
 
     public bool? IsFromCache { get; set; }
-    public GithubRepo Statistics { get; set; } = null!;
+    public GithubRepo? Statistics { get; set; } = null!;
 
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }

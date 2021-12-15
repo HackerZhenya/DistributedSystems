@@ -38,6 +38,8 @@ services:
       RabbitMQ__HeartbeatTimeout: 0:00:15
       RabbitMQ__Exchange: distributed-systems
       RabbitMQ__Queue: StatsRequestQueue
+      
+      Redis__ConnectionString: rediska
 
       Api__Url: http://webapi
     volumes:
@@ -66,3 +68,5 @@ services:
   rediska:
     restart: always
     image: redis:alpine
+    ports:
+      - "6379:6379/tcp"

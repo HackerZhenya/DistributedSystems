@@ -8,10 +8,10 @@ public class GithubRepo
     public long Id { get; set; }
 
     [JsonPropertyName("owner")]
-    public GithubUser Owner { get; set; } = null!;
+    public GithubUser? Owner { get; set; } = null!;
 
     [JsonPropertyName("license")]
-    public GithubLicense License { get; set; } = null!;
+    public GithubLicense? License { get; set; } = null!;
 
     [JsonPropertyName("node_id")]
     public string? NodeId { get; set; }

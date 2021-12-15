@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DistributedSystems.Web.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211213133335_FixSiteAdmin")]
-    partial class FixSiteAdmin
+    [Migration("20211215075213_NullableFields")]
+    partial class NullableFields
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -246,15 +246,12 @@ namespace DistributedSystems.Web.Database.Migrations
                                         .HasForeignKey("GithubRepoGithubStatId");
                                 });
 
-                            b1.Navigation("License")
-                                .IsRequired();
+                            b1.Navigation("License");
 
-                            b1.Navigation("Owner")
-                                .IsRequired();
+                            b1.Navigation("Owner");
                         });
 
-                    b.Navigation("Statistics")
-                        .IsRequired();
+                    b.Navigation("Statistics");
                 });
 #pragma warning restore 612, 618
         }

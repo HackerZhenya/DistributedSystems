@@ -1,4 +1,3 @@
-using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using DistributedSystems.Consumer.Clients;
@@ -19,16 +18,19 @@ public class Worker : IHostedService
     private readonly GithubClient _githubClient;
     private readonly ApiClient _apiClient;
     private readonly AmqpOptions _options;
+    private readonly IConnectionMultiplexer _redis;
 
     public Worker(IModel model,
                   ILogger<Worker> logger,
                   GithubClient githubClient,
                   ApiClient apiClient,
-                  IOptions<AmqpOptions> options)
+                  IOptions<AmqpOptions> options,
+                  IConnectionMultiplexer redis)
     {
         _logger = logger;
         _githubClient = githubClient;
         _apiClient = apiClient;
+        _redis = redis;
         _model = model;
         _options = options.Value;
     }
@@ -43,15 +45,25 @@ public class Worker : IHostedService
         consumer.Received += async (sender, evt) =>
         {
             var request = JsonSerializer.Deserialize<StatsRequest>(Encoding.UTF8.GetString(evt.Body.ToArray()));
-            var stats = await _githubClient.GetStatisticss(request, cancellationToken);
             var auth = Encoding.UTF8.GetString((byte[])evt.BasicProperties.Headers[HeaderNames.Authorization]);
             var id = Guid.Parse(Encoding.UTF8.GetString((byte[])evt.BasicProperties.Headers["Id"]));
 
-            var resp = new StatsResponse
+            var db = _redis.GetDatabase();
+            var cached = db.StringGet($"{request.Group}{request.Repository}");
+            var resp = new StatsResponse();
+
+            if (cached.HasValue)
             {
-                Repository = stats,
-                IsFromCache = false
-            };
+                var stats = JsonSerializer.Deserialize<GithubRepo>(cached);
+                resp.Repository = stats;
+                resp.IsFromCache = true;
+            }
+            else
+            {
+                var stats = await _githubClient.GetStatisticss(request, cancellationToken);
+                db.StringSet($"{request.Group}{request.Repository}", JsonSerializer.Serialize(stats));
+                resp.Repository = stats;
+            }
 
             await _apiClient.SendStatistics(id, resp, auth);
         };

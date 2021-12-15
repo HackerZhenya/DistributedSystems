@@ -244,15 +244,12 @@ namespace DistributedSystems.Web.Database.Migrations
                                         .HasForeignKey("GithubRepoGithubStatId");
                                 });
 
-                            b1.Navigation("License")
-                                .IsRequired();
+                            b1.Navigation("License");
 
-                            b1.Navigation("Owner")
-                                .IsRequired();
+                            b1.Navigation("Owner");
                         });
 
-                    b.Navigation("Statistics")
-                        .IsRequired();
+                    b.Navigation("Statistics");
                 });
 #pragma warning restore 612, 618
         }

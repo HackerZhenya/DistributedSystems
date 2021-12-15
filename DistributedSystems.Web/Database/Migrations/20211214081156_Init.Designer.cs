@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DistributedSystems.Web.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211209211146_OwnedStats")]
-    partial class OwnedStats
+    [Migration("20211214081156_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -67,11 +67,9 @@ namespace DistributedSystems.Web.Database.Migrations
                                 .HasColumnType("boolean");
 
                             b1.Property<string>("DefaultBranch")
-                                .IsRequired()
                                 .HasColumnType("text");
 
                             b1.Property<string>("Description")
-                                .IsRequired()
                                 .HasColumnType("text");
 
                             b1.Property<bool>("Disabled")
@@ -84,7 +82,6 @@ namespace DistributedSystems.Web.Database.Migrations
                                 .HasColumnType("integer");
 
                             b1.Property<string>("FullName")
-                                .IsRequired()
                                 .HasColumnType("text");
 
                             b1.Property<bool>("HasDownloads")
@@ -103,11 +100,9 @@ namespace DistributedSystems.Web.Database.Migrations
                                 .HasColumnType("boolean");
 
                             b1.Property<string>("Homepage")
-                                .IsRequired()
                                 .HasColumnType("text");
 
                             b1.Property<string>("HtmlUrl")
-                                .IsRequired()
                                 .HasColumnType("text");
 
                             b1.Property<long>("Id")
@@ -117,19 +112,15 @@ namespace DistributedSystems.Web.Database.Migrations
                                 .HasColumnType("boolean");
 
                             b1.Property<string>("Language")
-                                .IsRequired()
                                 .HasColumnType("text");
 
                             b1.Property<string>("MirrorUrl")
-                                .IsRequired()
                                 .HasColumnType("text");
 
                             b1.Property<string>("Name")
-                                .IsRequired()
                                 .HasColumnType("text");
 
                             b1.Property<string>("NodeId")
-                                .IsRequired()
                                 .HasColumnType("text");
 
                             b1.Property<int>("OpenIssues")
@@ -142,11 +133,9 @@ namespace DistributedSystems.Web.Database.Migrations
                                 .HasColumnType("integer");
 
                             b1.Property<ICollection<string>>("Topics")
-                                .IsRequired()
                                 .HasColumnType("jsonb");
 
                             b1.Property<string>("Visibility")
-                                .IsRequired()
                                 .HasColumnType("text");
 
                             b1.Property<int>("Watchers")
@@ -165,23 +154,18 @@ namespace DistributedSystems.Web.Database.Migrations
                                         .HasColumnType("uuid");
 
                                     b2.Property<string>("Key")
-                                        .IsRequired()
                                         .HasColumnType("text");
 
                                     b2.Property<string>("Name")
-                                        .IsRequired()
                                         .HasColumnType("text");
 
                                     b2.Property<string>("NodeId")
-                                        .IsRequired()
                                         .HasColumnType("text");
 
                                     b2.Property<string>("SpdxId")
-                                        .IsRequired()
                                         .HasColumnType("text");
 
                                     b2.Property<string>("Url")
-                                        .IsRequired()
                                         .HasColumnType("text");
 
                                     b2.HasKey("GithubRepoGithubStatId");
@@ -198,26 +182,21 @@ namespace DistributedSystems.Web.Database.Migrations
                                         .HasColumnType("uuid");
 
                                     b2.Property<string>("AvatarUrl")
-                                        .IsRequired()
                                         .HasColumnType("text");
 
                                     b2.Property<string>("Bio")
-                                        .IsRequired()
                                         .HasColumnType("text");
 
                                     b2.Property<string>("Blog")
-                                        .IsRequired()
                                         .HasColumnType("text");
 
                                     b2.Property<string>("Company")
-                                        .IsRequired()
                                         .HasColumnType("text");
 
                                     b2.Property<DateTime>("CreatedAt")
                                         .HasColumnType("timestamp with time zone");
 
                                     b2.Property<string>("Email")
-                                        .IsRequired()
                                         .HasColumnType("text");
 
                                     b2.Property<int>("Followers")
@@ -227,26 +206,21 @@ namespace DistributedSystems.Web.Database.Migrations
                                         .HasColumnType("integer");
 
                                     b2.Property<string>("HtmlUrl")
-                                        .IsRequired()
                                         .HasColumnType("text");
 
                                     b2.Property<long>("Id")
                                         .HasColumnType("bigint");
 
                                     b2.Property<string>("Location")
-                                        .IsRequired()
                                         .HasColumnType("text");
 
                                     b2.Property<string>("Login")
-                                        .IsRequired()
                                         .HasColumnType("text");
 
                                     b2.Property<string>("Name")
-                                        .IsRequired()
                                         .HasColumnType("text");
 
                                     b2.Property<string>("NodeId")
-                                        .IsRequired()
                                         .HasColumnType("text");
 
                                     b2.Property<int>("PublicGists")
@@ -255,12 +229,10 @@ namespace DistributedSystems.Web.Database.Migrations
                                     b2.Property<int>("PublicRepos")
                                         .HasColumnType("integer");
 
-                                    b2.Property<string>("SiteAdmin")
-                                        .IsRequired()
-                                        .HasColumnType("text");
+                                    b2.Property<bool?>("SiteAdmin")
+                                        .HasColumnType("boolean");
 
                                     b2.Property<string>("Type")
-                                        .IsRequired()
                                         .HasColumnType("text");
 
                                     b2.Property<DateTime>("UpdatedAt")
@@ -281,7 +253,8 @@ namespace DistributedSystems.Web.Database.Migrations
                                 .IsRequired();
                         });
 
-                    b.Navigation("Statistics");
+                    b.Navigation("Statistics")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
