@@ -7,7 +7,7 @@ using DistributedSystems.Entities.Extensions;
 await Host.CreateDefaultBuilder(args)
           .ConfigureServices(services =>
                {
-                   services//.AddRedis()
+                   services.AddRedis()
                            .AddAmqp()
                            .AddHostedService<Worker>();
                    services.AddHttpClient<GithubClient>();
