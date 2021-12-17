@@ -37,8 +37,7 @@ public class Worker : IHostedService
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _model.QueueDeclare(_options.Queue);
-        _model.ExchangeDeclare(_options.Exchange, ExchangeType.Topic);
+        _model.QueueDeclare(_options.Queue, exclusive: false);
         _model.QueueBind(_options.Queue, _options.Exchange, nameof(StatsRequest));
 
         var consumer = new EventingBasicConsumer(_model);

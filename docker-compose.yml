@@ -17,12 +17,12 @@ services:
       RabbitMQ__HeartbeatTimeout: 0:00:15
       RabbitMQ__Exchange: distributed-systems
     volumes:
-      - ./docker/protection-keys:/root/.aspnet/DataProtection-Keys
+      - ./.docker/protection-keys:/root/.aspnet/DataProtection-Keys
     depends_on:
       - postgres
       - rabbitmq
     ports:
-      - "127.0.0.1:8080:80/tcp"
+      - "127.0.0.1:8080-8081:80/tcp"
 
   consumer:
     restart: always
@@ -43,7 +43,7 @@ services:
 
       Api__Url: http://webapi
     volumes:
-      - ./docker/protection-keys:/root/.aspnet/DataProtection-Keys
+      - ./.docker/protection-keys:/root/.aspnet/DataProtection-Keys
     depends_on:
       - webapi
       - rabbitmq
@@ -57,16 +57,26 @@ services:
       POSTGRES_PASSWORD: distsys
     image: postgres:13.2-alpine
     volumes:
-      - ./docker/postgres-backend:/var/lib/postgresql/data
+      - ./.docker/postgres-backend:/var/lib/postgresql/data
 
   rabbitmq:
     restart: always
     image: rabbitmq:management-alpine
     ports:
-      - "127.0.0.1:8081:15672/tcp"
+      - "127.0.0.1:9081:15672/tcp"
 
   rediska:
     restart: always
     image: redis:alpine
     ports:
       - "6379:6379/tcp"
+
+  nginx:
+    restart: always
+    image: nginx:alpine
+    volumes:
+      - ./ci-cd/nginx.d:/etc/nginx/conf.d:ro
+    depends_on:
+      - webapi
+    ports:
+      - "0.0.0.0:80:80/tcp"
