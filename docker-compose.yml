@@ -1,53 +1,63 @@
 version: '3.5'
 
+x-webapi: &webapi
+  restart: always
+  build:
+    context: .
+    dockerfile: DistributedSystems.Web/Dockerfile
+  environment:
+    URLS: http://0.0.0.0:80
+    ASPNETCORE_ENVIRONMENT: Development
+
+    ConnectionStrings__PostgreSQL: 'User ID=distsys;Password=distsys;Host=postgres;Port=5432;Database=distsys'
+    RabbitMQ__Host: rabbitmq
+    RabbitMQ__Username: guest
+    RabbitMQ__Password: guest
+    RabbitMQ__HeartbeatTimeout: 0:00:15
+    RabbitMQ__Exchange: distributed-systems
+  volumes:
+    - ./.docker/protection-keys:/root/.aspnet/DataProtection-Keys
+  depends_on:
+    - postgres
+    - rabbitmq
+
+x-consumer: &consumer
+  restart: always
+  build:
+    context: .
+    dockerfile: DistributedSystems.Consumer/Dockerfile
+  environment:
+    ASPNETCORE_ENVIRONMENT: Development
+
+    RabbitMQ__Host: rabbitmq
+    RabbitMQ__Username: guest
+    RabbitMQ__Password: guest
+    RabbitMQ__HeartbeatTimeout: 0:00:15
+    RabbitMQ__Exchange: distributed-systems
+    RabbitMQ__Queue: StatsRequestQueue
+
+    Redis__ConnectionString: rediska
+
+    Api__Url: http://nginx
+  volumes:
+    - ./.docker/protection-keys:/root/.aspnet/DataProtection-Keys
+  depends_on:
+    - nginx
+    - rabbitmq
+    - rediska
+
 services:
-  webapi:
-    restart: always
-    build:
-      context: .
-      dockerfile: DistributedSystems.Web/Dockerfile
-    environment:
-      URLS: http://0.0.0.0:80
-      ASPNETCORE_ENVIRONMENT: Development
+  webapi0:
+    <<: *webapi
 
-      ConnectionStrings__PostgreSQL: 'User ID=distsys;Password=distsys;Host=postgres;Port=5432;Database=distsys'
-      RabbitMQ__Host: rabbitmq
-      RabbitMQ__Username: guest
-      RabbitMQ__Password: guest
-      RabbitMQ__HeartbeatTimeout: 0:00:15
-      RabbitMQ__Exchange: distributed-systems
-    volumes:
-      - ./.docker/protection-keys:/root/.aspnet/DataProtection-Keys
-    depends_on:
-      - postgres
-      - rabbitmq
-    ports:
-      - "127.0.0.1:8080-8081:80/tcp"
+  webapi1:
+    <<: *webapi
 
-  consumer:
-    restart: always
-    build:
-      context: .
-      dockerfile: DistributedSystems.Consumer/Dockerfile
-    environment:
-      ASPNETCORE_ENVIRONMENT: Development
+  consumer0:
+    <<: *consumer
 
-      RabbitMQ__Host: rabbitmq
-      RabbitMQ__Username: guest
-      RabbitMQ__Password: guest
-      RabbitMQ__HeartbeatTimeout: 0:00:15
-      RabbitMQ__Exchange: distributed-systems
-      RabbitMQ__Queue: StatsRequestQueue
-      
-      Redis__ConnectionString: rediska
-
-      Api__Url: http://webapi
-    volumes:
-      - ./.docker/protection-keys:/root/.aspnet/DataProtection-Keys
-    depends_on:
-      - webapi
-      - rabbitmq
-      - rediska
+  consumer1:
+    <<: *consumer
 
   postgres:
     restart: always
@@ -56,6 +66,8 @@ services:
       POSTGRES_USER: distsys
       POSTGRES_PASSWORD: distsys
     image: postgres:13.2-alpine
+    ports:
+      - "127.0.0.1:65432:5432/tcp"
     volumes:
       - ./.docker/postgres-backend:/var/lib/postgresql/data
 
@@ -77,6 +89,7 @@ services:
     volumes:
       - ./ci-cd/nginx.d:/etc/nginx/conf.d:ro
     depends_on:
-      - webapi
+      - webapi0
+      - webapi1
     ports:
       - "0.0.0.0:80:80/tcp"
